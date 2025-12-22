@@ -1,3 +1,142 @@
-<Solution>
-  <Project Path="OdevNot.csproj" />
-</Solution>
+using System;
+
+class Program
+{
+	static void Main(string[] args)
+	{
+		int mevcut = 0;
+		while (true)
+		{
+			try
+			{
+				Console.Write("Hesaplanacak öğrenci sayısı kaç? ");
+				mevcut = int.Parse(Console.ReadLine());
+
+				if (mevcut > 0) break;
+				else Console.WriteLine("-> Lütfen en az 1 öğrenci giriniz.");
+			}
+			catch
+			{
+				Console.WriteLine("-> Hatalı giriş! Sadece sayı yazın");
+
+			}
+
+		}
+		string[] adlar = new string[mevcut];
+		string[] soyadlar = new string[mevcut];
+		string[] okulNolar = new string[mevcut];
+		int[] vizeNot = new int[mevcut];
+		int[] finalNot = new int[mevcut];
+		double[] ortalamaListesi = new double[mevcut];
+		string[] harfListesi = new string[mevcut];
+
+
+		for (int i = 0; i <mevcut; i++)
+		{
+			Console.WriteLine($"\n[{i + 1}.Öğrenci Kaydı]");
+			Console.WriteLine("---------------------");
+			
+			Console.Write("Ad: ");
+			adlar[i] = Console.ReadLine();
+
+			Console.Write("Soyad: ");
+			soyadlar[i] = Console.ReadLine();
+
+			Console.Write("Okul No: ");
+			okulNolar[i] = Console.ReadLine();
+
+			while (true)
+			{
+				try
+				{
+					Console.Write("Vize Puanı (0-100): ");
+					vizeNot[i] = int.Parse(Console.ReadLine());
+					if (vizeNot[i] >= 0 && vizeNot[i] <= 100) break;
+					Console.WriteLine("-> Not 0 ile 100 arasında olmalı!");
+				}
+				catch { Console.WriteLine("-> Lütfen sayısal bir değer giriniz."); }
+
+			}
+
+			while (true)
+			{
+				try
+				{
+					Console.Write("Final Puanı (0-100): ");
+					finalNot[i] = int.Parse(Console.ReadLine());
+					if (finalNot[i] >= 0 && finalNot[i] <= 100) break;
+					Console.WriteLine("-> Not 0 ile 100 arasında olmalı!");
+				}
+				catch { Console.WriteLine("-> Lütfen sayısal bir değer giriniz."); }
+
+			}
+
+			ortalamaListesi[i] = (vizeNot[i] * 0.4) + (finalNot[i] * 0.6);
+
+			double notOrt = ortalamaListesi[i];
+
+			if (notOrt >= 90) harfListesi[i] = "AA";
+			else if (notOrt >= 85) harfListesi[i] = "BA";
+			else if (notOrt >= 80) harfListesi[i] = "BB";
+			else if (notOrt >= 75) harfListesi[i] = "CB";
+			else if (notOrt >= 65) harfListesi[i] = "CC";
+			else if (notOrt >= 58) harfListesi[i] = "DC";
+			else if (notOrt >= 50) harfListesi[i] = "DD";
+			else if (notOrt >= 40) harfListesi[i] = "FD";
+			else harfListesi[i] = "FF";
+
+		}
+		double genelToplam = 0;
+		double maxOrt = ortalamaListesi[0];
+		double minOrt = ortalamaListesi[0];
+
+		for (int j = 0; j < mevcut; j++)
+		{
+			genelToplam += ortalamaListesi[j];
+
+			if (ortalamaListesi[j] > maxOrt)
+				maxOrt = ortalamaListesi[j];
+
+			if (ortalamaListesi[j] < minOrt)
+				minOrt = ortalamaListesi[j];
+		}
+
+		double genelOrtalama = genelToplam / mevcut;
+
+
+		Console.Clear();
+		Console.WriteLine("==================================================================================");
+		Console.WriteLine("| {0,-3} | {1,-10} | {2,-10} | {3,-10} | {4,-6} | {5,-6} | {6,-8} | {7,-4} |",
+			"#", "İSİM", "SOYİSİM", "NUMARA", "VİZE", "FİNAL", "ORT.", "NOT");
+		Console.WriteLine("==================================================================================");
+
+		for (int i = 0; i < mevcut; i++)
+		{
+			Console.WriteLine("| {0,-3} | {1,-10} | {2,-10} | {3,-10} | {4,-6} | {5,-6} | {6,-8:F1} | {7,-4} |",
+				i + 1,
+				adlar[i],
+				soyadlar[i],
+				okulNolar[i],
+				vizeNot[i],
+				finalNot[i],
+				ortalamaListesi[i],
+				harfListesi[i]);
+		}
+
+		Console.WriteLine("==================================================================================");
+
+		Console.WriteLine("\n[ SINIF RAPORU ]");
+		Console.WriteLine($"-> Sınıf Mevcudu     : {mevcut}");
+		Console.WriteLine($"-> Sınıf Ortalaması  : {genelOrtalama:F2}");
+		Console.WriteLine($"-> En Yüksek Ortalama  : {maxOrt:F2}");
+		Console.WriteLine($"-> En Düşük Ortalama   : {minOrt:F2}");
+
+		Console.Write("\nÇıkış yapmak için bir tuşa basınız...");
+		Console.ReadKey();
+
+
+
+
+
+	}
+}
